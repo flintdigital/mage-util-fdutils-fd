@@ -2,9 +2,9 @@
 
 ###Utility scripts for Magento.
 
-DB Backup script
-Media Folder Backup script
-Image Cleanup script (removes unused images)
+* DB Backup script
+* Media Folder Backup script
+* Image Cleanup script (removes unused images)
 
 Each script has a readme file with instructions on how to use it.
 
