@@ -1,0 +1,27 @@
+*********************************************
+* How to use:				    *
+*********************************************
+
+At shell run:
+sh ./fd_db_backup.sh {magento_root_dir} {s3_bucket_name} {hourly|daily_m|daily_w}
+
+{magento_root_dir} -> The folder which has the folders app/, media/, var/, skin/.
+{s3_bucket_name}   -> The S3 Bucket Name that will be used for the backups. Usually something like domain-dbbackup
+{hourly|daily_m|daily_w}  -> The type of backup file. 
+		If hourly, it will create a file called dbname_hourly_nn.tar.gz. Where "nn" is the current hour (24 hour format)
+		If daily_m, it will create a file called dbname_daily_m_nn.tar.gz. Where "nn" is the day of the month
+		If daily_w, it will create a file called dbname_daily_m_nn.tar.gz. Where "nn" is the day of the week
+
+
+*********************************************
+* In case we need to Recover:		    *
+*********************************************
+
+Get the list of the current backups: 
+	s3cmd ls BUCKET
+Analize to define which is the latest, or more suitable backup. Remember we can have hourly, daily by week days or daily by month days backups.
+Go to Magento's var/ folder and download the file defined.
+Get the file from S3:
+	s3cmd get BUCKET/FILENAME local_file
+Untar the file and import the DB.
+

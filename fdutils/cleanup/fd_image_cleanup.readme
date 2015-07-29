@@ -1,0 +1,16 @@
+*********************************************
+* How to use:				    *
+*********************************************
+
+Make a backup of the media folder with the fd_media_backup.sh script. 
+At shell run:
+sh ./fd_image_cleanup.sh {magento_root_dir} [cleanup]
+
+{magento_root_dir} -> The folder which has the folders app/, media/, var/, skin/.
+[cleanup]	   -> If not present, the script runs in test mode: No images are deleted. If present, it will remove the unused images.
+
+*********************************************
+* In case we need to Recover:		    *
+*********************************************
+
+Follow the fd_media_backup.sh script instructions on How to recover.

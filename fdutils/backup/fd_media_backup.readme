@@ -1,0 +1,26 @@
+*********************************************
+* How to use:				    *
+*********************************************
+
+At shell run:
+sh ./fd_media_backup.sh {magento_root_dir} {backup_dest_dir} {s3_bucket_name}
+
+{magento_root_dir} -> The folder which has the folders app/, media/, var/, skin/.
+{backup_dest_dir}  -> The folder that will hold the backups. These backups will be removed. Folder needs to be writable
+{s3_bucket_name}   -> The S3 Bucket Name that will be used for the backups. Usually something like domain-dbbackup
+
+
+*********************************************
+* In case we need to Recover:		    *
+*********************************************
+
+Create a new media folder and set its permissions. Name it media.new
+cd into the media.new folder
+Get all the files in the bucket inside the new media folder
+	s3cmd sync s3://BUCKET/ .
+If there are splitted files (-aa, -ab, etc prefixes), Join them like this
+	cat splitted-file.tar.gz-* > splitted-file.tar.gz
+Untar all the files. This works because we are compressing them respecting folder structure.
+Change the old media folder name to media.old, change the media.new folder to media
+
+
