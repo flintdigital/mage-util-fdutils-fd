@@ -19,11 +19,38 @@ At shell run:
 * In case we need to Recover:		    *
 *********************************************
 
-Get the list of the current backups: 
-	s3cmd ls BUCKET
-Analize to define which is the latest, or more suitable backup. Remember we can have hourly, daily by week days or daily by month days backups.
-Go to Magento's var/ folder and download the file defined.
-Get the file from S3:
-	s3cmd get BUCKET/FILENAME local_file
-Untar the file and import the DB.
+cd ~/public_html
+cat app/etc/local.xml
+s3cmd ls
+s3cmd ls BUCKET
+s3cmd get BUCKET/FILE
+mysql -uUSER -p
+	create database cpaneluser_dbname
+	source FILE
+vi app/etc/local.xml
+	change DB NAME
+rm -rf var/cache
+
+#Go to Magento Root dir
+cd ~/public_html
+#Get the DB CREDS
+cat app/etc/local.xml
+#Check which bucket to use
+s3cmd ls
+#Check which file to restore
+s3cmd ls BUCKET
+#Get the restore file
+s3cmd get BUCKET/FILE
+#Go to Mysql
+mysql -uUSER -p
+	#Create new DB at cpanel if this can't be done
+	create database cpaneluser_dbname
+	#Import the DB
+	source FILE
+#Set the new DB at the local.xml file
+vi app/etc/local.xml
+	change DB NAME
+#Clear cache
+rm -rf var/cache
+
 
