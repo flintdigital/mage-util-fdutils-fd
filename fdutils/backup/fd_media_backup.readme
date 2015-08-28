@@ -2,25 +2,49 @@
 * How to use:				    *
 *********************************************
 
+Make sure the script has execution permissions
 At shell run:
-sh ./fd_media_backup.sh {magento_root_dir} {backup_dest_dir} {s3_bucket_name}
+./fd_media_backup.sh {magento_root_dir} {s3_bucket_name} {hourly|daily_m|daily_w|single|monthly}
 
 {magento_root_dir} -> The folder which has the folders app/, media/, var/, skin/.
-{backup_dest_dir}  -> The folder that will hold the backups. These backups will be removed. Folder needs to be writable
-{s3_bucket_name}   -> The S3 Bucket Name that will be used for the backups. Usually something like domain-dbbackup
+{s3_bucket_name}   -> The S3 Bucket Name that will be used for the backups. Something like domain.com-mediabackup is always a good name.
+{hourly|daily_m|daily_w|single|monthly}  -> The type of backup file. 
+		If hourly, the filename's suffix will be hourly_n Where "n" is the current hour (24 hour format) (1 am is 1, not 01) 
+		If daily_m, the filename's suffix will be daily_m_nn Where "nn" is the day of the month
+		If daily_w, the filename's suffix will be daily_w_n Where "n" is the day of the week
+		If single, the filename's suffix will be single_
+		If monthly, the filename's suffix will be monthly_nn Where "nn" is the current month
 
 
 *********************************************
 * In case we need to Recover:		    *
 *********************************************
 
-Create a new media folder and set its permissions. Name it media.new
-cd into the media.new folder
-Get all the files in the bucket inside the new media folder
-	s3cmd sync s3://BUCKET/ .
-If there are splitted files (-aa, -ab, etc prefixes), Join them like this
-	cat splitted-file.tar.gz-* > splitted-file.tar.gz
-Untar all the files. This works because we are compressing them respecting folder structure.
-Change the old media folder name to media.old, change the media.new folder to media
+cd ~/public_html
+mkdir media.new && cd media.new
+s3cmd ls
+s3cmd ls BUCKET
+s3cmd get BUCKET/PATTERN*
+for i in *.tar.gz; do tar -zxvf $i; done
+cd ..
+mv media media.old && mv media.new media && rm -rf var/cache
 
+
+
+#Go to the Magento Root directory
+cd ~/public_html
+#Create new media folder and get in it
+mkdir media.new && cd media.new
+#Check which bucket is the one used by this client
+s3cmd ls
+#Check with backup you need to restore
+s3cmd ls BUCKET
+#Get all the backup files
+s3cmd get BUCKET/pattern*
+#Untar all the files
+for i in *.tar.gz; do tar -zxvf $i; done
+#Go to Magento root again
+cd ..
+#Save old media folder with different name. Set new media folder as the one used by magento. Clear cache
+mv media media.old && mv media.new media && rm -rf var/cache
 

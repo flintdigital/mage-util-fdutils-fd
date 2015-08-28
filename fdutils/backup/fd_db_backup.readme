@@ -1,16 +1,18 @@
 *********************************************
 * How to use:				    *
 *********************************************
-
+Make sure the script has execution permissions
 At shell run:
-sh ./fd_db_backup.sh {magento_root_dir} {s3_bucket_name} {hourly|daily_m|daily_w}
+./fd_media_backup.sh {magento_root_dir} {s3_bucket_name} {hourly|daily_m|daily_w|single|monthly}
 
 {magento_root_dir} -> The folder which has the folders app/, media/, var/, skin/.
-{s3_bucket_name}   -> The S3 Bucket Name that will be used for the backups. Usually something like domain-dbbackup
-{hourly|daily_m|daily_w}  -> The type of backup file. 
-		If hourly, it will create a file called dbname_hourly_nn.tar.gz. Where "nn" is the current hour (24 hour format)
+{s3_bucket_name}   -> The S3 Bucket Name that will be used for the backups. Something like domain.com-mediabackup is always a good name.
+{hourly|daily_m|daily_w|single|monthly}  -> The type of backup file. 
+		If hourly, it will create a file called dbname_hourly_n.tar.gz. Where "n" is the current hour (24 hour format) (1 am is 1, not 01) 
 		If daily_m, it will create a file called dbname_daily_m_nn.tar.gz. Where "nn" is the day of the month
-		If daily_w, it will create a file called dbname_daily_m_nn.tar.gz. Where "nn" is the day of the week
+		If daily_w, it will create a file called dbname_daily_w_n.tar.gz. Where "n" is the day of the week
+		If single, it will create a file called dbname_single.tar.gz
+		If monthly, it will create a file called dbname_monthly_nn.tar.gz. Where "nn" is the current month
 
 
 *********************************************
