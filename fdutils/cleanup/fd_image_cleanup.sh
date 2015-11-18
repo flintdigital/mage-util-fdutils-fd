@@ -1,6 +1,9 @@
 #!/bin/bash
 
 ########
+#
+# The script removes any image in the media/catalog/product dir that is not used by a product (runs an sql query to check)
+#
 #HOW TO
 #
 #	At shell run:
