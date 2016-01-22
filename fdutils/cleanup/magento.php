@@ -8,6 +8,8 @@
  * @link       http://www.crucialwebhost.com  Crucial Web Hosting
  */
 
+$rootPath = dirname(__FILE__).'/../..';
+
 switch($_GET['clean']) {
     case 'log':
         clean_log_tables();
@@ -18,7 +20,8 @@ switch($_GET['clean']) {
 }
 
 function clean_log_tables() {
-    $xml = simplexml_load_file('./app/etc/local.xml', NULL, LIBXML_NOCDATA);
+    global $rootPath;
+    $xml = simplexml_load_file($rootPath.'./app/etc/local.xml', NULL, LIBXML_NOCDATA);
     
     if(is_object($xml)) {
         $db['host'] = $xml->global->resources->default_setup->connection->host;
@@ -62,6 +65,7 @@ function clean_log_tables() {
 }
 
 function clean_var_directory() {
+    global $rootPath;
     $dirs = array(
         'downloader/.cache/',
         'downloader/pearlib/cache/*',
@@ -79,6 +83,6 @@ function clean_var_directory() {
     );
     
     foreach($dirs as $dir) {
-        exec('rm -rf '.$dir);
+        exec('rm -rf '.$rootPath.'/'.$dir);
     }
 }
