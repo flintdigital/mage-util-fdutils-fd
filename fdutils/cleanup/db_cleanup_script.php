@@ -27,7 +27,6 @@ function clean_log_tables() {
     global $db;
    
     $tables = array(
-     'aw_core_logger',
      'dataflow_batch_export',
      'dataflow_batch_import',
      'log_customer',
